@@ -78,3 +78,11 @@ In the `Tag` property of the control add text in the following pattern:
 You can add as many as needed for different DynData objects, separated by a space. If it's an optional parameter, add a hyphen before the parameter name, as for the Initialisation.
 
 When the screen loads, the DynData object will automatically link the control. When calling `GetData()` the parameters will be updated from the controls, or the same update can be forced by calling `ddXXXX.ParamsFromControls()`.
+
+You can, if needed, also work directly with the stored query parameters, which can be accessed via `ddXXXX.CurrentParams()` – this will return a Dictionary of parameter names and current values.
+
+### Bound controls
+
+When you set the EpiBinding of a screen control to a field of a DynData EpiDataView, it will behave in the usual way, showing the relevant data for that field on the current active row of the view (and the grid, if that is visible). As the row changes, so will the data.
+
+Note that if you bind a drop-down control (EpiCombo or BAQCombo) to a DynData field, the same field in the grid, if it's visible, will be changed to the matching type of control, so the grid will also have a drop-down for that field. If you want a drop-down in the grid *only* it can be useful to bind a control in this way and then set its visibility to false.
