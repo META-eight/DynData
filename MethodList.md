@@ -1,9 +1,11 @@
 ### List of DynData Methods
 
 `.Name` returns string
+
 Gets or sets the BAQ query name. Normally set during initialisation.
 
 `.CloseDown()`
+
 Disposes of all elements of the object and sets variables to null.
 
 `.AutoSelect` returns bool
