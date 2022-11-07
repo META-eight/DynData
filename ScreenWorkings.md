@@ -79,6 +79,15 @@ You can add as many as needed for different DynData objects, separated by a spac
 
 When the screen loads, the DynData object will automatically link the control. When calling `GetData()` the parameters will be updated from the controls, or the same update can be forced by calling `ddXXXX.ParamsFromControls()`.
 
+There are two optional suffixes which can be used with controls that have text values:
+
+`p:BAQNAME.parametername~LIKE`
+`p:BAQNAME.parametername~LIKEALL`
+
+When using the first, the value is passed to the query surrounded by wildcard characters, so if the BAQ uses the parameter in a 'LIKE' condition, it will be treated as as a 'contains' pattern match rather than an exact match.
+
+The second behaves the same but replaces all spaces with wildcards too.
+
 You can, if needed, also work directly with the stored query parameters, which can be accessed via `ddXXXX.CurrentParams()` – this will return a Dictionary of parameter names and current values.
 
 ### Bound controls
