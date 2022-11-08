@@ -1209,7 +1209,7 @@ class DynData //version 2022-11-02
             if (retds != null && retds.Tables.Count > 0 && retds.Tables["Errors"] != null && retds.Tables["Errors"].Rows.Count > 0)  
             {  
                 string msg = "Save Error " + baqName;  
-                foreach (DataRowView row in retds.Tables["Errors"].Rows)  
+                foreach (DataRow row in retds.Tables["Errors"].Rows)  
                 {  
                     msg = msg + System.Environment.NewLine + row["ErrorText"].ToString();  
                 }  
@@ -1525,7 +1525,7 @@ class DynData //version 2022-11-02
         }  
     }  
 
-    private void FormatGrid()  
+    public void FormatGrid()  
     {  
         if (grid != null)  
         {  
@@ -2545,6 +2545,8 @@ class DynDataFilterGridSC
                 col.Hidden = true;   
             }   
         }   
+        band.SortedColumns.Clear();
+        band.SortedColumns.Add(keyfield,false,false);
     }   
 
     public void CloseDown()   
