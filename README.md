@@ -22,6 +22,8 @@ It is also possible to create very sophisticated colour features within the data
 
 For additional custom work triggered by user interaction with the screen, custom code in the customization Script can use [DynData Events](Events.md).
 
+Most publically accessible methods are in [List of Methods](MethodList.md).  
+
 ### Note
 
 This code was created for our own use and is not endorsed by Epicor.  
