@@ -1,3 +1,5 @@
+## DynData Initial Set-up
+
 ### Preparation
 
 Within a customization of an Epicor client screen, in 'Script Editor', there is a 'Script' block.

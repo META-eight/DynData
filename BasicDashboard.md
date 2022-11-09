@@ -16,9 +16,9 @@ Deploy the dashboard to an assembly version, and create a menu item so the dashb
 ### 3. Create the actual Dashboard BAQ(s)
 
 You need at least one BAQ for the actual data.   
-The only essential extra feature for DynData BAQs is that there needs to be a set of fields that acts as a unique key to each row. When the BAQ is based on a single main table it is often convenient to use the SysRowID of that table.
+The only essential extra feature for DynData BAQs is that there needs to be a set of fields that acts as a unique key to each row. When the BAQ is based on a single main table it is often convenient to use the SysRowID of that table.  
 It can be updateable, but doesn't need to be. If it is updateable, then the fields selected as updateable will be editable by the user in the final dashboard.  
-As there is no restriction on the number of rows returned in a DynData dashboard, it is sensible to use Query Parameters to limit the data in the query to only the data needed.
+As there is no restriction on the number of rows returned in a DynData dashboard, it is sensible to use Query Parameters to limit the data in the query to only the data needed.  
 Colour highlighting is optional – see [Colours](Colours.md) if any is needed.
 
 ### 4. Create a Customization for the Dashboard Assembly
@@ -30,4 +30,4 @@ Add one EpiUltraGrid control per BAQ you want to use to the screen area. If you 
 See [the set-up instructions](SetUp.md) for the code to use within the Script area.  
 Save and close the customization, then set it as the default for the menu item.  
 You can then re-open the customization (in developer mode) and add any other controls and workings you need. You will generally need to consider at least the things in [hooking into Epicor screen workings](ScreenWorkings.md), but the other instructions are more optional.  
-Every time you open the screen using this customization after first setting it up, it will load the data from the BAQs you've included and they will be available as EpiDataViews and for further code work.
+Every time you open the screen using this customization after first setting it up, it will load the data from the BAQs you've included and they will be available as EpiDataViews and for further code work.  
