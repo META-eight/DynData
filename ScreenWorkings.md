@@ -1,4 +1,4 @@
-## DynData within a screen
+## Hooking into Epicor Screen Workings with DynData
 
 When a DynData object is used in a customization, its data will appear in the list of EpiDataViews.
 
