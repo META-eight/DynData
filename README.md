@@ -25,5 +25,5 @@ For additional custom work triggered by user interaction with the screen, custom
 ### Note
 
 This code was created for our own use and is not endorsed by Epicor.  
-It is a series of wrappers and conventions on top of standard Epicor systems that have remained largely unchanged from ERP10.0 to the Kinetic classic client, but we have no control over how those systems may be changed or made obsolete in future.
+It is a series of wrappers and conventions on top of standard Epicor systems that have remained largely unchanged from ERP10.0 to the Kinetic classic client, but we have no control over how those systems may be changed or made obsolete in future.  
 It is documented here for ease of maintenance by METAeight clients where we have used this system on their behalf, and we take no responsibility for any other use.  
