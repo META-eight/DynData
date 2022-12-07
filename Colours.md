@@ -8,7 +8,7 @@ To colour any individual column in the BAQ grid, add an additional Calculated fi
 
 The output to this field must be a Hex colour code (also known as web colour or HTML colour) in the format '#FFFFF'. It can be hardcoded to make that column always that colour in the simplest form.  
 
-The CAPTION (not the name) of the field takes the form of the name of the field to be coloured, as it appears when the BAQ is in use, followed by a space and 'Colour'. For example, 'OrderHed_OrderNum Colour' or 'Calculated_Status Colour'.  
+The LABEL (not the name) of the field takes the form of the name of the field to be coloured, as it appears when the BAQ is in use, followed by a space and 'Colour'. For example, 'OrderHed_OrderNum Colour' or 'Calculated_Status Colour'.  
 
 When the DynData `FormatRows()` method is called, the hex colour will be used to provide the background colour of the column specified. This method is called automatically every time the data is refreshed, and can be called manually to alter colours when otherwise required.  
 
