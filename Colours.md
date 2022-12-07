@@ -1,8 +1,8 @@
-### Colours and Highlights in DynData Grids
+## Colours and Highlights in DynData Grids
 
 DynData objects can colour the fields in a grid in more subtle ways than the built-in Epicor row rules, but the method is different. To achieve this flexibility, the DynData code has to bypass the EpiMagic that handles the formatting of the grid.  
 
-## Base workings  
+### Base workings  
 
 To colour any individual column in the BAQ grid, add an additional Calculated field to the BAQ, of type nvarchar, minimum length 7 characters.  
 
@@ -16,7 +16,7 @@ When the DynData `FormatRows()` method is called, the hex colour will be used to
 
 The DynData code also includes logic to evaulate the perceived brightness of the resulting colour to the human eye, and switches the field text between black and white automatically according to which is assessed to be the better contrast.
 
-## Precedence  
+### Precedence  
 
 Note that colour columns are processed in the order they appear.  
 
@@ -24,7 +24,7 @@ If you need a general row colour, this should be first in the list of fields. An
 
 At the moment there is no way of colouring multiple columns short of a whole row, so each column will need a separate field.  
 
-## Variable colour  
+### Variable colour  
 
 Because the colour output is a field, each row is processed separately and can be a different value.  
 
