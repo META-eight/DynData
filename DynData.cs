@@ -1268,7 +1268,15 @@ class DynData //version 2022-11-02
 
     public void RunCustomAction(string actionID)  
     {  
-        adptr.RunCustomAction(baqName,actionID,adptr.QueryResults,true);  
+        oTrans.PushStatusText("Running Action " + actionID + " for " + baqName + "...",true);
+		try
+		{
+			adptr.RunCustomAction(baqName,actionID,adptr.QueryResults,true);
+		}
+		finally
+		{
+			oTrans.PopStatus();
+		}
     }  
 
     public void RefreshData()  
