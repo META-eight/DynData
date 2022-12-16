@@ -445,7 +445,7 @@ class DynData //version 2022-11-02
         FindFilterControls();  
         FindVisibleControls();  
         FindGotoControls(); 
-        grid.UpdateMode = UpdateMode.OnCellChange;  
+        grid.UpdateMode = UpdateMode.OnCellChangeOrLostFocus;  
         grid.CellChange += grid_CellChange;  
         grid.AfterRowActivate += new System.EventHandler(grid_AfterRowActivate);  
     }  
@@ -1271,11 +1271,21 @@ class DynData //version 2022-11-02
         oTrans.PushStatusText("Running Action " + actionID + " for " + baqName + "...",true);
 		try
 		{
-			adptr.RunCustomAction(baqName,actionID,adptr.QueryResults,true);
+			DataSet retds = adptr.RunCustomAction(baqName,actionID,adptr.QueryResults,true);
+			if (retds != null && retds.Tables.Count > 0 && retds.Tables["Errors"] != null && retds.Tables["Errors"].Rows.Count > 0)
+			{
+				string msg = "Error with Action " + actionID + " for " + baqName;
+				foreach (DataRow erow in retds.Tables["Errors"].Rows)
+				{
+					msg = msg + System.Environment.NewLine + erow["ErrorText"].ToString();
+				}
+				MessageBox.Show(msg);
+			}
 		}
 		finally
 		{
 			oTrans.PopStatus();
+			GetData();
 		}
     }  
 
@@ -1831,9 +1841,16 @@ class DynData //version 2022-11-02
                     edv.dataView.Table.Columns[rowname].ExtendedProperties["ReadOnly"] = isreadonly;  
                     if (setcontrols && !isreadonly) { updfields.Add(baqName + "." + rowname); }  
                 }  
-                if (isreadonly && grid != null && grid.DisplayLayout.Bands[0].Columns.Exists(rowname))  
+                if (grid != null && grid.DisplayLayout.Bands[0].Columns.Exists(rowname))  
                 {  
-                    grid.DisplayLayout.Bands[0].Columns[rowname].CellActivation = Activation.NoEdit;  
+                    if (isreadonly)
+					{
+						grid.DisplayLayout.Bands[0].Columns[rowname].CellActivation = Activation.NoEdit;
+					}
+					else
+					{
+						grid.DisplayLayout.Bands[0].Columns[rowname].CellActivation = Activation.AllowEdit;
+					} 
                 }  
             }  
             if (setcontrols && grid != null)  
