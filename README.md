@@ -17,7 +17,7 @@ The basics of how to do that are in [Set-up Instructions](SetUp.md), followed by
 For a more basic introduction, there is [Creating a Basic Dashboard](BasicDashboard.md).
 
 One of the main purposes of the DynData system is to make it easy to create user-friendly custom features for making the data clearer.  
-It is possible to give the user very quick and responsive filters, for example, mostly with no code at all. Doing that is covered by [Filters](Filters.md).  
+It is possible to give the user very quick and responsive filters, for example, mostly with no code at all. Doing that is covered by [Filters](Filters.md). This also includes details of the system where controls can be set up to allow users to skip directly to a row within the grid without actually filtering.  
 It is also possible to create very sophisticated colour features within the data grid, purely by adding some specific fields to the underlying BAQ and applying some conventions. A guide to the basics of this is in [Colours](Colours.md).
 
 For additional custom work triggered by user interaction with the screen, custom code in the customization Script can use [DynData Events](Events.md).

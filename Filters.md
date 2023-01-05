@@ -62,4 +62,24 @@ For more information about the behaviour of these comparison types, see Infragit
 
 If OR is specified for all controls, then rows matching any one of the control criteria will be shown. This is usually not what the user will naturally expect, so it is important to label the filters carefully in this case.
 
-If controls affecting the same grid are mixed between AND and OR then behaviour is not clearly defined.
+If controls affecting the same grid are mixed between AND and OR then behaviour is not clearly defined.  
+
+### 'GoTo' Controls  
+
+'GoTo' controls allow the user to make a specific row in the grid active without locating it manually. As they enter values in the control, the first matching row in the grid will be highlighted and moved into view. When the value is entered in a textbox, it behaves like a `STARTSWITH`, so a row will be found in which the beginning of the value in the matching field matches, adjusting for each character entered.
+
+To create a 'GoTo' control, add a textbox or combo box to the screen with a DynData grid. As with filter controls, DO NOT bind it to a data field.  
+
+In the 'Tag" property, insert text in the following form:  
+
+`g:BAQNAME.Field_Name`  
+
+Note that no code is required when doing this. During form load, an event handler will be created on `ValueChanged` for the control, as with filter controls.  
+
+The components of the Tag text are as follows:  
+
+`g:` is always the same, and is the indicator on form load that this control is to be used as a go-to.   
+
+`BAQNAME` is the name of the EpiDataView, which is also the name of the BAQ the specific DynData object is using.  
+
+`Field_Name` is a valid field in the BAQ, NOT the caption but the actual name of the field. It doesn't need to be one that's visible in the grid, but generally for GoTo controls the user will expect it to be.  
