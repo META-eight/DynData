@@ -83,3 +83,39 @@ The components of the Tag text are as follows:
 `BAQNAME` is the name of the EpiDataView, which is also the name of the BAQ the specific DynData object is using.  
 
 `Field_Name` is a valid field in the BAQ, NOT the caption but the actual name of the field. It doesn't need to be one that's visible in the grid, but generally for GoTo controls the user will expect it to be.  
+
+### Filter Grids  
+
+Filter grids are grid controls (EpiUltraGrid in the toolbox) that show values to filter in or out of the main grid the DynData object is based around. For backwards compatibility there are two classes within the code, DynDataFilterGrid and DynDataFilterGridSC, but the DynDataFilterGridSC is a later addition that's easier to use and therefore recommended and documented here.  
+
+The grid will show all distinct values from a given field in the main data (this doesn't need to be visible in the main grid, but if not then it's advisable to think about how the user will know what the effects are going to be), plus a selection tickbox. Values with the associated tickbox ticked will be shown in the main grid, and values unticked will be filtered out.  
+
+The DynDataFilterGridSC object does this by taking a list directly from the main data whenever it's refreshed, so it will vary the listing depending on the data present in the first place. The older DynDataFilterGrid required a separate BAQ to be set up, which would therefore usually be static. Check that version if static is better suited.  
+
+To use DynDataFilterGridSC, add a secondary grid to the screen where the main DynData grid is. Don't bind it.  
+
+Add a private variable to the Script part of the screen code:  
+
+```c#
+private DynDataFilterGridSC ddfgName;
+```
+
+Then, below the code that creates the parent DynData object, initialise the filter grid object:  
+
+```c#
+  ddfgName = new DynDataFilterGridSC(ddParent,"BAQDisplayField","BAQFilterField",grdForFilter,oTrans,boolean excludeblank); 
+```
+
+The parameters are:
+
+`ddParent` is the variable holding the DynData object for the grid to be filtered.  
+
+`BAQDisplayField` is the field name in the parent DynData BAQ holding the data to use for values appearing in the filter grid.  
+
+`BAQFilterField` is the field name in the parent DynData BAQ holding the data to filter on. This can be the same as the previous field, but doesn't have to be.  
+
+`grdForFilter` is the EpiUltraGrid control to be used for the filter grid, NOT the parent grid.
+
+`oTrans` is the session for the Epicor screen to be passed in, always in this form.  
+
+`excludeblank`, when set to true, ignores any blank or null values in the main grid data, and only lists actual values. The default is false (the parameter is optional), in which case if there are blanks in the data then a blank field will appear as an option for filtering in or out.  
