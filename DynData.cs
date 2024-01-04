@@ -21,7 +21,7 @@ using System.Reflection;
 
 // DynData code copyright Meta Eight Ltd 2022 
 
-class DynData //version 2022-11-02
+class DynData //version 2024-01-04
 {  
     private bool debugon;  
     private string debuguser;  
@@ -403,6 +403,8 @@ class DynData //version 2022-11-02
             }  
         }  
         paramColour = Color.Red;  
+        bool upd = updateable;
+        updateable = false;
         if (g != null)  
         {  
             InitialiseGrid(g);  
@@ -411,6 +413,7 @@ class DynData //version 2022-11-02
         {  
             GetData();  
         }  
+        updateable = upd;
         edv.dataView.ListChanged += edv_ListChanged;  
         results.ColumnChanged += results_ColumnChanged;  
     }  
@@ -2343,6 +2346,127 @@ class GetDataEventArgs : EventArgs
 class FilterEventArgs : EventArgs  
 {  
 }  
+
+class DynDataColumnSelect
+{
+	private DynData ddParent;
+	private EpiTransaction oTrans;
+	private UltraGrid pgrid;
+	private UltraGrid sgrid;
+	private Dictionary<string,int> colwidths;
+	private Dictionary<string,bool> colvis;
+	private DataTable coltable;
+
+	public DynDataColumnSelect(DynData parent, EpiTransaction trans)
+	{
+		ddParent = parent;
+		oTrans = trans;
+		pgrid = ddParent.GetGrid();
+		coltable = new DataTable();
+		coltable.Columns.Add("Column",typeof(string));
+		coltable.Columns.Add("Width",typeof(int));
+		coltable.Columns.Add("Show",typeof(bool));
+	}
+
+	public void Initialise(
+		string[] captions,
+		int[] widths,
+		bool[] visible,
+		UltraGrid setgrid)
+	{
+		colwidths = new Dictionary<string,int>();
+		colvis = new Dictionary<string,bool>();
+		if (setgrid != null && coltable != null && widths.Length == captions.Length && visible.Length == captions.Length)
+		{
+			sgrid = setgrid;
+			for (int i=0;i<captions.Length;i++)
+			{
+				if (!colwidths.Keys.Contains(captions[i]))
+				{
+					coltable.Rows.Add(captions[i],widths[i],visible[i]);
+				}
+				colwidths[captions[i]] = widths[i];
+				colvis[captions[i]] = visible[i];
+			}
+			sgrid.DataSource = coltable;
+			ColumnsVisible();
+			coltable.ColumnChanged += coltable_ColumnChanged;
+			sgrid.CellChange += sgrid_CellChange;
+		}
+	}
+
+	public void CloseDown()
+	{
+		coltable.ColumnChanged -= coltable_ColumnChanged;
+		sgrid.CellChange += sgrid_CellChange;
+		coltable = null;
+	}
+
+	public void ColumnsVisible()
+	{
+		UltraGridBand band = pgrid.DisplayLayout.Bands[0];
+		foreach (DataRow row in coltable.Rows)
+		{
+			colwidths[row["Column"].ToString()] = (int?)row["Width"] ?? 0;
+			colvis[row["Column"].ToString()] = (bool?)row["Show"] ?? false;
+		}
+		for (int i=0;i<band.Columns.Count;i++)
+		{
+			int width = 0;
+			bool vis = false;
+			string caption = band.Columns[i].Header.Caption;
+			if (colwidths.TryGetValue(caption, out width))
+			{
+				band.Columns[i].Width = width;
+			}
+			else
+			{
+				band.Columns[i].Width = 0;
+			}
+			if (colvis.TryGetValue(caption, out vis))
+			{
+				band.Columns[i].Hidden = !vis;
+			}
+			else
+			{
+				band.Columns[i].Hidden = true;
+			}
+		}
+	}
+
+	private void sgrid_CellChange(object sender, CellEventArgs args)
+	{
+		if (args.Cell.Column.Key == "Calculated_Checked")
+		{
+			sgrid.PerformAction(Infragistics.Win.UltraWinGrid.UltraGridAction.ExitEditMode);
+			args.Cell.Row.Update();
+			ColumnsVisible();
+		}
+	}
+	
+	private void coltable_ColumnChanged(object sender, DataColumnChangeEventArgs args)
+	{
+		if (args.Column.ColumnName != "Calculated_Checked")
+		{
+			OnDataColumnChange(args);
+			ColumnsVisible();
+		}
+	}
+
+	protected virtual void OnDataColumnChange(DataColumnChangeEventArgs args)
+	{
+			EventHandler<DataColumnChangeEventArgs> handler = DataColumnChange;
+			if (handler != null && args != null)
+			{
+				if (args.Row.HasVersion(DataRowVersion.Current) && !args.ProposedValue.Equals(args.Row[args.Column.ColumnName, DataRowVersion.Current]))
+				{
+					handler(this,args);
+				}
+			}
+	}
+
+	public event EventHandler<DataColumnChangeEventArgs> DataColumnChange;
+}
 
 class DynDataFilterGrid  
 {  
