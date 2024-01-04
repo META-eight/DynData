@@ -20,6 +20,7 @@ using System.Reflection;
 #region Classes  
 
 // DynData code copyright Meta Eight Ltd 2022 
+// Documentation at https://github.com/META-eight/DynData
 
 class DynData //version 2024-01-04
 {  
