@@ -199,6 +199,11 @@ class DynData //version 2024-01-04
         return results;  
     }  
 
+	public EpiUltraGrid GetGrid()
+	{
+		return grid;
+	}  
+
     public void Clear()  
     {  
         adptr.ClearDynamicQueryData();  
